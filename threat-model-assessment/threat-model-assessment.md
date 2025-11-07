@@ -165,14 +165,21 @@ Make applicability decision:
 
 If **Not Applicable**:
 1. Create assessment with "Not Applicable" status
-2. Write 1-2 paragraphs explaining:
+2. Write concise rationale (max 1024 characters for SDElements) explaining:
    - What technology/pattern the countermeasurement addresses
    - Why the product doesn't use that technology/pattern
    - What alternative approach the product uses (if any)
-   - Code references supporting the conclusion
+   - Key code references supporting the conclusion
 3. Store assessment in assessment_data
 4. No JIRA ticket needed
 5. Ask for next countermeasurement (skip to step 5.8)
+
+**Guidelines for Not Applicable Rationale**:
+- Maximum 1024 characters (SDElements limit)
+- Be concise but complete
+- Include specific code references (file:line)
+- Use numbered lists for clarity
+- State conclusion explicitly
 
 **Example Not Applicable Assessment**:
 ```
@@ -180,12 +187,13 @@ If **Not Applicable**:
 
 **Status**: Not Applicable
 
-**Rationale**:
-This countermeasurement addresses session fixation attacks in session-based authentication systems. Llama Stack does not use server-side session management and therefore is not vulnerable to session fixation.
+This countermeasure addresses session fixation in session-based authentication systems. Llama Stack (LLS) does not use server-side session management and is therefore not vulnerable to session fixation.
 
-LLS implements stateless authentication using Bearer tokens (JWT, OAuth2/OIDC). Analysis of auth.py:89-150 confirms no session creation, storage, or management. Each request is independently authenticated via token validation. The only "session" references are for AWS Boto3 sessions (external service auth) and test fixtures.
+LLS implements stateless authentication using Bearer tokens (JWT, OAuth2/OIDC, GitHub tokens, Kubernetes service account tokens). Analysis of auth.py:89-150 confirms: (1) No session creation, storage, or management; (2) Each request independently authenticated via token validation; (3) No session IDs generated or stored in cookies; (4) User attributes extracted per-request and discarded after.
 
-Conclusion: Session fixation countermeasures are not applicable to LLS's stateless token-based architecture.
+Session references in codebase are for AWS Boto3 sessions (external service auth) and test fixtures, not user sessions. Session fixation countermeasures are not applicable to LLS's stateless token-based architecture.
+
+[Character count: ~728]
 ```
 
 #### 5.3 Extract Relevant Parts (if Applicable)
