@@ -177,9 +177,14 @@ If **Not Applicable**:
 **Guidelines for Not Applicable Rationale**:
 - Maximum 1024 characters (SDElements limit)
 - Be concise but complete
-- Include specific code references (file:line)
+- Include specific code references (file:line) in analysis paragraphs
 - Use numbered lists for clarity
-- State conclusion explicitly
+- **Conclusion section**: One line per paragraph, NO code references (this gets pasted into SDElements)
+
+**Structure**:
+1. Opening paragraph: What the countermeasure addresses
+2. Analysis paragraph(s): Why it doesn't apply, with code references
+3. **Conclusion**: Clean summary suitable for SDElements (no code refs, one line per paragraph)
 
 **Example Not Applicable Assessment**:
 ```
@@ -187,13 +192,15 @@ If **Not Applicable**:
 
 **Status**: Not Applicable
 
-This countermeasure addresses session fixation in session-based authentication systems. Llama Stack (LLS) does not use server-side session management and is therefore not vulnerable to session fixation.
+This countermeasure addresses session fixation in session-based authentication systems.
 
-LLS implements stateless authentication using Bearer tokens (JWT, OAuth2/OIDC, GitHub tokens, Kubernetes service account tokens). Analysis of auth.py:89-150 confirms: (1) No session creation, storage, or management; (2) Each request independently authenticated via token validation; (3) No session IDs generated or stored in cookies; (4) User attributes extracted per-request and discarded after.
+Llama Stack (LLS) does not use server-side session management. Analysis of auth.py:89-150 confirms: (1) No session creation, storage, or management; (2) Each request independently authenticated via token validation; (3) No session IDs generated or stored in cookies; (4) User attributes extracted per-request and discarded after. LLS implements stateless authentication using Bearer tokens (JWT, OAuth2/OIDC, GitHub tokens, Kubernetes service account tokens).
 
-Session references in codebase are for AWS Boto3 sessions (external service auth) and test fixtures, not user sessions. Session fixation countermeasures are not applicable to LLS's stateless token-based architecture.
+**Conclusion (for SDElements):**
+LLS uses stateless token-based authentication, not session-based authentication.
+Session fixation countermeasures are not applicable to this architecture.
 
-[Character count: ~728]
+[Character count: ~672]
 ```
 
 #### 5.3 Extract Relevant Parts (if Applicable)
