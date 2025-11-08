@@ -721,8 +721,3 @@ Before finishing, verify:
 - [ ] Summary file saved to disk
 
 </INSTRUCTIONS>
-
-## Example Usage
-
-```
-User: "I want to assess Llama Stack"
