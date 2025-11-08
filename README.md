@@ -28,14 +28,19 @@ Automate security assessments with AI-powered code analysis against any threat m
 
 ## Installation
 
-Add the marketplace and install plugins:
+Add the marketplace:
 
 ```
 /plugin marketplace add rhuss/claude-code-dev-marketplace
+```
+
+Install the plugin:
+
+```
 /plugin install threat-model-assessment@claude-code-dev-marketplace
 ```
 
-Then invoke the plugin:
+Invoke the plugin:
 
 ```
 /threat-model-assessment
