@@ -30,7 +30,7 @@ JSON Input Schema:
         "effort_days": 10,
         "epic": "EPIC-123",
         "component": "Component Name",
-        "priority": "Critical|High|Medium|Low"
+        "priority": "Blocker|Critical|Major|Normal|Minor"
     }
 
 Output:

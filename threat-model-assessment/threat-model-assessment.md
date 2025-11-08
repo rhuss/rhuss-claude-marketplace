@@ -78,7 +78,7 @@ Ask the user the following questions using AskUserQuestion tool:
    - If yes, ask follow-up:
      * "Epic to link tickets to?" (optional, provide epic key like RHAIENG-1247)
      * "Component name?" (e.g., "Llama Stack Core")
-     * "Default priority?" (Critical, High, Medium, Low)
+     * "Default priority?" (Blocker, Critical, Major, Normal, Minor)
 
 ### Step 2: Verify JIRA Configuration (if needed)
 
@@ -417,7 +417,7 @@ cd ~/Development/ai/claude-code-dev-marketplace/threat-model-assessment && cat >
   "effort_days": 10,
   "epic": "[epic_key]",
   "component": "[component_name]",
-  "priority": "[Critical|High|Medium|Low]"
+  "priority": "[Blocker|Critical|Major|Normal|Minor]"
 }
 JSONEOF
 cat /tmp/jira_ticket.json | python3 create_jira_issue.py
@@ -449,7 +449,7 @@ cat /tmp/jira_ticket.json | python3 create_jira_issue.py
 - `effort_days`: Estimated effort in days (required, number)
 - `epic`: Epic key to link to (optional, omit if not linking)
 - `component`: Component name (optional)
-- `priority`: Critical/High/Medium/Low (optional, defaults to Critical)
+- `priority`: Blocker/Critical/Major/Normal/Minor (optional, defaults to Critical)
 
 3. Store ticket key in assessment data
 
