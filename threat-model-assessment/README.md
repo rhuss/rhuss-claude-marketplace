@@ -69,12 +69,19 @@ Additional Context: https://gdpr-info.eu/art-30-gdpr/
 
 ### Required
 - Claude Code with plugin support
+- Python 3.x
 - Access to codebase(s) being assessed
 
-### Optional (for JIRA integration)
-- [jira-cli](https://github.com/ankitpokhrel/jira-cli) installed
-- JIRA API token configured
+### Required for JIRA Integration
+- [jira-cli](https://github.com/ankitpokhrel/jira-cli) - **Required** if you want to create JIRA tickets
+- JIRA API token
 - JIRA project access
+
+Install jira-cli:
+```bash
+brew install ankitpokhrel/jira-cli/jira-cli
+jira init
+```
 
 ## Installation
 

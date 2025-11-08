@@ -30,6 +30,7 @@ import os
 import json
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Optional, Dict, Any
 
@@ -170,31 +171,39 @@ def create_jira_ticket(
             raise ValueError("JIRA API token not found")
 
         # Save description to temp file
-        desc_file = Path("/tmp/jira_description_temp.txt")
-        desc_file.write_text(description)
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+            f.write(description)
+            desc_file = f.name
 
-        # Build jira-cli command
-        cmd = [
-            'jira', 'issue', 'create',
-            '-t', issue_type,
-            '-s', summary,
-            '-T', str(desc_file),
-            '-y', priority,
-            '--web'  # Open in browser after creation
-        ]
+        try:
+            # Build jira-cli command
+            cmd = [
+                'jira', 'issue', 'create',
+                '-t', issue_type,
+                '-s', summary,
+                '-T', desc_file,
+                '-y', priority,
+                '--web'  # Open in browser after creation
+            ]
 
-        # Add component if provided
-        if component:
-            cmd.extend(['-C', component])
+            # Add component if provided
+            if component:
+                cmd.extend(['-C', component])
 
-        # Execute creation
-        result = subprocess.run(
-            cmd,
-            env={**os.environ, 'JIRA_API_TOKEN': token},
-            capture_output=True,
-            text=True,
-            timeout=30
-        )
+            # Execute creation
+            result = subprocess.run(
+                cmd,
+                env={**os.environ, 'JIRA_API_TOKEN': token},
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+        finally:
+            # Clean up temp file
+            try:
+                os.unlink(desc_file)
+            except:
+                pass
 
         if result.returncode != 0:
             print(f"❌ Failed to create JIRA ticket: {result.stderr}", file=sys.stderr)
@@ -280,31 +289,39 @@ def update_jira_ticket(
             return False
 
         # Save payload to temp file
-        payload_file = Path("/tmp/jira_update_payload.json")
-        payload_file.write_text(json.dumps(payload, indent=2))
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            json.dump(payload, f, indent=2)
+            payload_file = f.name
 
-        # Use curl for update (jira-cli doesn't handle complex updates well)
-        cmd = [
-            'curl', '-X', 'PUT',
-            '-H', f'Authorization: Bearer {token}',
-            '-H', 'Content-Type: application/json',
-            '--data', f'@{payload_file}',
-            f'{config["server"]}/rest/api/2/issue/{ticket_key}'
-        ]
+        try:
+            # Use curl for update (jira-cli doesn't handle complex updates well)
+            cmd = [
+                'curl', '-X', 'PUT',
+                '-H', f'Authorization: Bearer {token}',
+                '-H', 'Content-Type: application/json',
+                '--data', f'@{payload_file}',
+                f'{config["server"]}/rest/api/2/issue/{ticket_key}'
+            ]
 
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=30
-        )
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
 
-        if result.returncode != 0:
-            print(f"❌ Failed to update JIRA ticket: {result.stderr}", file=sys.stderr)
-            return False
+            if result.returncode != 0:
+                print(f"❌ Failed to update JIRA ticket: {result.stderr}", file=sys.stderr)
+                return False
 
-        print(f"✓ Updated JIRA ticket: {ticket_key}")
-        return True
+            print(f"✓ Updated JIRA ticket: {ticket_key}")
+            return True
+        finally:
+            # Clean up temp file
+            try:
+                os.unlink(payload_file)
+            except:
+                pass
 
     except Exception as e:
         print(f"❌ Error updating JIRA ticket: {e}", file=sys.stderr)

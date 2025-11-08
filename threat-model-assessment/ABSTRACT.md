@@ -14,4 +14,3 @@ The Threat Model Assessment plugin transforms how security teams conduct threat 
 
 Perfect for security architects, DevSecOps teams, compliance officers, and anyone conducting security assessments or preparing for audits.
 
-**Character Count: 995**
