@@ -160,27 +160,27 @@ The plugin will be available via the `/threat-model-assessment` slash command.
 ### Example Session
 
 ```
-User: "I want to conduct a threat model assessment for Llama Stack"
+User: "I want to conduct a threat model assessment for my project"
 
 Claude: [Invokes threat-model-assessment plugin]
 
 Claude: "What product/project are you assessing?"
-User: "Llama Stack - AI gateway and standardization layer"
+User: "My Application - AI gateway and standardization layer"
 
 Claude: "What type of deployment model does this product use?"
 User: "Self-hosted product (customers install and run)"
 
 Claude: "What codebases should be analyzed?"
-User: "/Users/rhuss/Development/ai/llama-stack, /Users/rhuss/Development/ai/llama-stack-kubernetes-operator"
+User: "/path/to/main-repository, /path/to/operator-repository"
 
 Claude: "Should JIRA tickets be created for identified gaps?"
 User: "Yes - create JIRA tickets"
 
 Claude: "Epic to link tickets to?"
-User: "RHAIENG-1247"
+User: "EPIC-123"
 
 Claude: "Component name?"
-User: "Llama Stack Core"
+User: "Core Services"
 
 Claude: [Explores codebases, creates architecture summary]
 
@@ -197,9 +197,9 @@ Claude: [Conducts codebase analysis, generates assessment]
 Claude: "Assessment complete. Should I create a JIRA ticket?"
 User: "Yes"
 
-Claude: [Creates JIRA-1841 with concise task list]
+Claude: [Creates JIRA ticket with concise task list]
 
-Claude: "JIRA ticket created: RHAIENG-1841. Ready for next countermeasurement?"
+Claude: "JIRA ticket created: PROJECT-456. Ready for next countermeasurement?"
 User: [Pastes next requirement or says "done"]
 
 ... [Repeat for additional countermeasurements]
