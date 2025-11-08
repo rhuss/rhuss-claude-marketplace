@@ -312,68 +312,83 @@ h2. Estimated Effort
 
 **Note**: If user provided reference URL, include it at the top for traceability back to assessment tool.
 
-2. Create ticket using jira_helper.py module:
+2. Create ticket using create_jira_issue.py script:
 
-**IMPORTANT**: Use the jira_helper.py module from the plugin directory. This module handles:
-- Reading JIRA config from ~/.config/.jira/.config.yml
-- Reading API token from ~/.zsh-custom/globals.zsh
-- Creating tickets via jira-cli
-- Updating ticket descriptions with proper JIRA wiki markup
-- Linking tickets to epics
+**IMPORTANT**: Use the create_jira_issue.py script from the plugin directory. This script:
+- Requires JIRA_API_TOKEN environment variable
+- Formats descriptions with proper JIRA wiki markup (h2., h3., *, {{code}})
+- Creates tickets via jira-cli
+- Links tickets to epics
+- Returns ticket key on success
 
-Use Bash tool to run Python script:
+First, ensure JIRA_API_TOKEN is set:
 ```bash
-cd ~/Development/ai/claude-code-dev-marketplace/threat-model-assessment && python3 -c "
-import sys
-sys.path.append('.')
-from jira_helper import create_jira_ticket
-
-# JIRA description MUST use wiki markup (h2., h3., *, {{code}})
-# Include reference URL if provided by user
-description = '''h2. Reference
-Source: [reference_url]
-
-h2. Background
-[Brief context]
-
-h2. Current State
-* (/) [What's implemented]
-* (x) [What's missing]
-
-h2. Tasks
-* Task 1
-* Task 2
-
-h2. Out of Scope
-* [Customer responsibilities]
-
-h2. Estimated Effort
-[X days]'''
-
-ticket_key = create_jira_ticket(
-    summary='[Brief Title] ([Requirement ID])',
-    description=description,
-    epic='[epic_key]',
-    component='[component_name]',
-    priority='[priority]'
-)
-
-if ticket_key:
-    print(f'✓ Created: {ticket_key}')
-else:
-    print('✗ Failed')
-    sys.exit(1)
-"
+export JIRA_API_TOKEN="MTU4NDY3NzM1MDY0OtOd3YQXE6/FuxTwo6x6kMv2b84L"
 ```
 
-**Common Issues**:
-- If description formatting is wrong (shows Markdown), use update_jira_ticket() to fix:
+Then create ticket by piping JSON data to the script:
 ```bash
-cd ~/Development/ai/claude-code-dev-marketplace/threat-model-assessment && python3 -c "
-from jira_helper import update_jira_ticket
-update_jira_ticket(ticket_key='[KEY]', description='[wiki_markup]')
-"
+cd ~/Development/ai/claude-code-dev-marketplace/threat-model-assessment && echo '{
+  "summary": "[Brief Title] ([Requirement ID])",
+  "reference_url": "[reference_url_if_provided]",
+  "background": "[Brief context about the gap]",
+  "current_state": {
+    "implemented": [
+      "[What is implemented]",
+      "[Another implemented item]"
+    ],
+    "missing": [
+      "[What is missing]",
+      "[Another missing item]"
+    ]
+  },
+  "tasks": [
+    {
+      "title": "[Task Group 1 Title]",
+      "items": [
+        "[Task 1 description]",
+        "[Task 2 description]"
+      ]
+    },
+    {
+      "title": "[Task Group 2 Title]",
+      "items": [
+        "[Task 3 description]"
+      ]
+    }
+  ],
+  "out_of_scope": [
+    "[Customer responsibility or external dependency]",
+    "[Another out of scope item]"
+  ],
+  "effort_days": 10,
+  "epic": "[epic_key]",
+  "component": "[component_name]",
+  "priority": "[Critical|High|Medium|Low]"
+}' | python3 create_jira_issue.py
 ```
+
+**If JIRA_API_TOKEN is not set**, the script will print instructions for creating a Personal Access Token:
+1. Go to https://issues.redhat.com/secure/ViewProfile.jspa
+2. Click 'Personal Access Tokens'
+3. Create token with 90-day expiration
+4. Set in environment: `export JIRA_API_TOKEN='your-token'`
+5. For persistence, add to ~/.zsh-custom/globals.zsh
+
+**Script output**: Prints ticket key (e.g., "RHAIENG-1234") on success, exits with code 1 on failure.
+
+**JSON Field Reference**:
+- `summary`: Ticket title (required)
+- `reference_url`: URL to countermeasurement in assessment tool (optional, omit field if not available)
+- `background`: Brief context about security gap (required)
+- `current_state.implemented`: List of what's already implemented (required)
+- `current_state.missing`: List of what's missing (required)
+- `tasks`: List of task groups, each with title and items (required)
+- `out_of_scope`: List of external items not in product scope (optional, can be empty list)
+- `effort_days`: Estimated effort in days (required, number)
+- `epic`: Epic key to link to (optional, omit if not linking)
+- `component`: Component name (optional)
+- `priority`: Critical/High/Medium/Low (optional, defaults to Critical)
 
 3. Store ticket key in assessment data
 

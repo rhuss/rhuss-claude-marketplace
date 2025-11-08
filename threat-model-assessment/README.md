@@ -222,6 +222,68 @@ The plugin generates:
 
 2. **JIRA tickets**: One per countermeasurement with gaps (optional)
 
+## Plugin Scripts
+
+The plugin includes two Python scripts for JIRA integration:
+
+### create_jira_issue.py
+
+Main script for creating JIRA tickets with proper wiki markup formatting.
+
+**Usage**:
+```bash
+export JIRA_API_TOKEN="your-token"
+echo '{"summary": "...", "background": "...", ...}' | python3 create_jira_issue.py
+```
+
+**Features**:
+- Takes JSON input with structured assessment data
+- Formats descriptions as JIRA wiki markup (h2., h3., *, {{code}})
+- Validates required fields
+- Links tickets to epics
+- Prints ticket key on success
+
+**Required Environment Variable**:
+- `JIRA_API_TOKEN`: Personal Access Token from JIRA
+
+If not set, the script prints instructions for creating a token at https://issues.redhat.com/secure/ViewProfile.jspa
+
+**JSON Schema**:
+```json
+{
+  "summary": "Ticket title (required)",
+  "reference_url": "URL to assessment tool (optional)",
+  "background": "Brief context (required)",
+  "current_state": {
+    "implemented": ["Item 1"],
+    "missing": ["Item 2"]
+  },
+  "tasks": [
+    {
+      "title": "Task Group",
+      "items": ["Task 1", "Task 2"]
+    }
+  ],
+  "out_of_scope": ["External item"],
+  "effort_days": 10,
+  "epic": "EPIC-123",
+  "component": "Component Name",
+  "priority": "Critical"
+}
+```
+
+### jira_helper.py
+
+Low-level helper module for JIRA operations.
+
+**Functions**:
+- `create_jira_ticket()`: Create ticket via jira-cli
+- `update_jira_ticket()`: Update ticket description
+- `verify_jira_config()`: Check JIRA configuration
+- `save_ticket_to_file()`: Save ticket data for offline review
+
+Used internally by `create_jira_issue.py`. Can also be imported for custom scripts.
+
 ## Configuration
 
 ### JIRA Configuration Files
@@ -252,14 +314,22 @@ For [specific compliance framework]:
 
 ### Modifying JIRA Format
 
-Edit `jira_helper.py` to customize ticket creation:
+The plugin uses `create_jira_issue.py` to create JIRA tickets with consistent wiki markup formatting. To customize:
+
+1. **Modify formatting**: Edit `create_jira_issue.py` `format_jira_description()` function
+2. **Add custom fields**: Edit `create_jira_issue.py` JSON schema and `create_jira_ticket()` call
+3. **Change ticket defaults**: Edit `jira_helper.py` `create_jira_ticket()` function
+
+Example: Adding labels to all tickets:
 
 ```python
+# In jira_helper.py
 def create_jira_ticket(summary, description, **kwargs):
-    # Add custom fields
-    # Modify default priority
-    # Add labels, etc.
-    ...
+    # Add default labels
+    labels = kwargs.get('labels', [])
+    labels.append('security')
+    labels.append('threat-model')
+    # ... rest of function
 ```
 
 ## Troubleshooting
