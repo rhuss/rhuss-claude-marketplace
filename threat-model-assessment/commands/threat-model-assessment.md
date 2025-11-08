@@ -3,41 +3,6 @@ name: threat-model-assessment
 description: Conduct security threat model assessments for software projects by analyzing code against countermeasurement requirements and generating GDPR/compliance documentation with optional JIRA integration
 ---
 
-# Threat Model Assessment Plugin
-
-This plugin helps conduct systematic security threat model assessments following industry best practices and compliance frameworks (GDPR, OWASP, CIS, NIST, etc.).
-
-## How to Use This Plugin
-
-Invoke this plugin when you need to:
-- Conduct a threat model assessment for a software product
-- Analyze code against security countermeasurement requirements
-- Generate compliance documentation (GDPR Article 30, etc.)
-- Create JIRA tickets for identified security gaps
-- Document data processing activities and security controls
-
-## Workflow
-
-This plugin follows a structured assessment workflow:
-
-1. **Setup**: Collect information about the assessment context
-2. **Repository Exploration**: Analyze target codebases
-3. **Iterative Assessment**: For each countermeasurement requirement:
-   - Extract relevant requirements
-   - Analyze codebase for threats
-   - Create assessment documentation
-   - Optionally create JIRA tickets
-4. **Summary Generation**: Create comprehensive markdown summary
-
-## Before You Begin
-
-Ensure you have:
-- Access to the codebase(s) being assessed
-- (Optional) JIRA credentials configured if creating tickets
-- (Optional) Threat model requirements from your assessment framework (e.g., SDElements, OWASP ASVS, CIS Controls)
-
-## Plugin Execution
-
 <INSTRUCTIONS>
 
 ## Phase 1: Setup and Information Gathering
