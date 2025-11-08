@@ -6,51 +6,39 @@ This repository contains custom Claude Code plugins for security, development, a
 
 ### 🔒 threat-model-assessment
 
-Conduct systematic security threat model assessments for software projects.
+Automate security assessments with AI-powered code analysis against any threat modeling framework or compliance standard.
 
 **Features:**
-- Analyze code against security countermeasurement requirements
-- Generate GDPR/compliance documentation
-- Create JIRA tickets for identified security gaps
-- Support multiple repositories (local and remote)
-- Generate comprehensive markdown assessment summaries
+- Framework-agnostic: Works with OWASP ASVS, CIS Controls, NIST, GDPR, internal policies, or any security framework
+- AI-powered codebase analysis with file-level precision
+- Iterative assessment of multiple requirements in a single session
+- Automated gap analysis and remediation recommendations
+- Optional JIRA integration for ticket creation
+- Comprehensive markdown assessment reports
 
 **Use Cases:**
-- GDPR Article 30 compliance (data processing registers)
-- SDElements threat model requirements
+- OWASP ASVS security assessments
+- CIS Controls compliance verification
+- NIST framework implementation reviews
+- GDPR Article 30 data processing registers
+- Internal security policy audits
 - Security architecture reviews
-- Compliance documentation
 
 [→ View Plugin Documentation](./threat-model-assessment/README.md)
 
 ## Installation
 
-### Option 1: Local Installation
+Add the marketplace and install plugins:
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/rhuss/claude-code-dev-marketplace.git
-   cd claude-code-dev-marketplace
-   ```
+```
+/plugin marketplace add rhuss/claude-code-dev-marketplace
+/plugin install threat-model-assessment@claude-code-dev-marketplace
+```
 
-2. Link plugins to Claude Code:
-   ```bash
-   # Create Claude Code plugins directory if it doesn't exist
-   mkdir -p ~/.claude/plugins
+Then invoke the plugin:
 
-   # Symlink the plugin
-   ln -s "$(pwd)/threat-model-assessment" ~/.claude/plugins/threat-model-assessment
-   ```
-
-3. Restart Claude Code
-
-### Option 2: Direct Use
-
-You can also use plugins directly by referencing their skill files:
-
-```bash
-# In Claude Code
-/skill /path/to/claude-code-dev-marketplace/threat-model-assessment/threat-model-assessment.md
+```
+/threat-model-assessment
 ```
 
 ## Plugin Development

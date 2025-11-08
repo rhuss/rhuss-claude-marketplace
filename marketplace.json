@@ -1,0 +1,36 @@
+{
+  "name": "claude-code-dev-marketplace",
+  "owner": {
+    "name": "Roland Huß",
+    "email": "rhuss@redhat.com"
+  },
+  "description": "Custom Claude Code plugins for security, development, and automation workflows",
+  "homepage": "https://github.com/rhuss/claude-code-dev-marketplace",
+  "repository": "https://github.com/rhuss/claude-code-dev-marketplace",
+  "license": "MIT",
+  "plugins": [
+    {
+      "name": "threat-model-assessment",
+      "source": "./threat-model-assessment",
+      "description": "Conduct systematic security threat model assessments by analyzing code against countermeasurement requirements and generating compliance documentation with optional JIRA integration",
+      "version": "1.0.0",
+      "author": {
+        "name": "Roland Huß",
+        "email": "rhuss@redhat.com"
+      },
+      "keywords": [
+        "security",
+        "threat-modeling",
+        "compliance",
+        "owasp",
+        "gdpr",
+        "cis-controls",
+        "nist",
+        "vulnerability-assessment",
+        "jira",
+        "code-analysis"
+      ],
+      "category": "security"
+    }
+  ]
+}
