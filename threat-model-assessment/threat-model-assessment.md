@@ -551,6 +551,117 @@ Structure:
 
 Save this file to the current working directory.
 
+### Step 6.5: Add Summary to Epic (Optional)
+
+Ask user: "Would you like to add the threat model assessment summary as a comment to the epic?"
+
+If user says yes:
+
+1. **Generate JIRA Wiki Markup Version of Summary**:
+
+Convert the markdown summary to JIRA wiki markup format:
+- Headers: Use h1., h2., h3. instead of #, ##, ###
+- Bold: Use *text* instead of **text**
+- Lists: Use * item (same as markdown)
+- Links: Use [text|url] instead of [text](url)
+- Code: Use {{code}} instead of `code`
+- Inline code: Use {{code}} instead of `code`
+
+Structure the JIRA comment:
+```
+h1. Threat Model Assessment Summary
+
+*Project:* [Project Name]
+*Date:* [Current Date]
+*Deployment Model:* [Self-hosted/SaaS/Hybrid]
+
+h2. Executive Summary
+
+Conducted threat model assessment for [Project] using SDElements countermeasurement requirements. Assessed [N] countermeasurements:
+
+* *Not Applicable:* [N] countermeasurements ([list])
+* *Gaps Identified:* [N] countermeasurements requiring remediation
+* *JIRA Tickets Created:* [N] tickets ([list with links])
+* *Total Estimated Effort:* [N] days
+
+h3. Critical Findings
+
+# [JIRA-XXXX] (Priority): [Brief description]
+# [JIRA-YYYY] (Priority): [Brief description]
+
+h2. Countermeasurements Assessed
+
+h3. [Requirement ID]: [Title] ([JIRA-XXXX])
+
+*Status:* [Status] | *Priority:* [Priority] | *Effort:* [N] days
+
+*Implemented:* [Bulleted list of what's implemented]
+
+*Missing:* [Bulleted list of gaps]
+
+[Repeat for each countermeasurement]
+
+h2. Action Items by Priority
+
+h3. Critical Priority
+
+* [JIRA-XXXX|https://issues.redhat.com/browse/JIRA-XXXX] - [Description] ([N] days)
+
+h3. Major Priority
+
+* [JIRA-YYYY|https://issues.redhat.com/browse/JIRA-YYYY] - [Description] ([N] days)
+
+[Continue for all priorities]
+
+h2. External Dependencies (Out of Scope)
+
+* [Dependency 1]
+* [Dependency 2]
+
+h2. Recommendations
+
+h3. Immediate (Next Sprint)
+
+* [Recommendation 1]
+* [Recommendation 2]
+
+h3. Medium-term (Next Quarter)
+
+* [Recommendation 3]
+
+h3. Strategic
+
+* [Recommendation 4]
+```
+
+2. **Add Comment to Epic**:
+
+Use the jira_helper.py add_comment_to_issue function:
+
+```python
+export JIRA_API_TOKEN="..." && cd ~/Development/ai/claude-code-dev-marketplace/threat-model-assessment && python3 <<'PYEOF'
+import sys
+sys.path.insert(0, '.')
+from jira_helper import add_comment_to_issue
+
+comment = '''[JIRA wiki markup summary here]'''
+
+if add_comment_to_issue('[epic_key]', comment):
+    print('✓ Successfully added threat model assessment summary to epic [epic_key]')
+    sys.exit(0)
+else:
+    print('ERROR: Failed to add comment to epic', file=sys.stderr)
+    sys.exit(1)
+PYEOF
+```
+
+3. **Confirm Success**:
+
+Inform user: "✓ Threat model assessment summary added to epic [epic_key]"
+
+If user says no:
+- Skip to Step 7
+
 ### Step 7: Final TodoWrite Update
 
 Mark summary generation as complete.
