@@ -226,7 +226,7 @@ Session fixation countermeasures are not applicable to this architecture.
 When a countermeasurement is determined to be "Not Applicable", add a comment to the epic documenting the decision using the jira_helper.py script:
 
 ```python
-export JIRA_API_TOKEN="..." && cd ~/Development/ai/claude-code-dev-marketplace/threat-model-assessment && python3 -c "
+export JIRA_API_TOKEN="..." && cd ~/Development/ai/rhuss-claude-marketplace/threat-model-assessment && python3 -c "
 import sys
 from jira_helper import add_comment_to_issue
 
@@ -380,7 +380,7 @@ export JIRA_API_TOKEN="your-jira-api-token-here"
 **IMPORTANT**: Always use a temporary file for JSON data to avoid shell escaping issues:
 
 ```bash
-cd ~/Development/ai/claude-code-dev-marketplace/threat-model-assessment && cat > /tmp/jira_ticket.json <<'JSONEOF'
+cd ~/Development/ai/rhuss-claude-marketplace/threat-model-assessment && cat > /tmp/jira_ticket.json <<'JSONEOF'
 {
   "summary": "[Brief Title] ([Requirement ID])",
   "reference_url": "[reference_url_if_provided]",
@@ -639,7 +639,7 @@ h3. Strategic
 Use the jira_helper.py add_comment_to_issue function:
 
 ```python
-export JIRA_API_TOKEN="..." && cd ~/Development/ai/claude-code-dev-marketplace/threat-model-assessment && python3 <<'PYEOF'
+export JIRA_API_TOKEN="..." && cd ~/Development/ai/rhuss-claude-marketplace/threat-model-assessment && python3 <<'PYEOF'
 import sys
 sys.path.insert(0, '.')
 from jira_helper import add_comment_to_issue

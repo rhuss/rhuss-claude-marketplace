@@ -19,6 +19,6 @@
     "jira",
     "code-analysis"
   ],
-  "homepage": "https://github.com/rhuss/claude-code-dev-marketplace/tree/main/threat-model-assessment",
-  "repository": "https://github.com/rhuss/claude-code-dev-marketplace"
+  "homepage": "https://github.com/rhuss/rhuss-claude-marketplace/tree/main/threat-model-assessment",
+  "repository": "https://github.com/rhuss/rhuss-claude-marketplace"
 }

@@ -25,21 +25,27 @@ Turn security requirements into actionable code assessments. Provide a threat de
 
 ## Installation
 
-Add the marketplace:
+**Step 1:** Add this marketplace to Claude Code:
 
 ```
-/plugin marketplace add rhuss/claude-code-dev-marketplace
+/plugin marketplace add rhuss/rhuss-claude-marketplace
 ```
 
-Install the plugin:
+**Step 2:** Install any plugin from the marketplace:
 
 ```
-/plugin install threat-model-assessment@claude-code-dev-marketplace
+/plugin install <plugin-name>@rhuss-claude-marketplace
 ```
 
-Invoke the plugin:
+**Step 3:** Invoke the plugin using its slash command:
 
 ```
+/<plugin-name>
+```
+
+**Example** (installing threat-model-assessment):
+```
+/plugin install threat-model-assessment@rhuss-claude-marketplace
 /threat-model-assessment
 ```
 

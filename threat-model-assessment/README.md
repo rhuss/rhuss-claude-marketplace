@@ -90,11 +90,11 @@ jira init
 ```bash
 # Clone the marketplace
 cd ~/Development
-git clone https://github.com/rhuss/claude-code-dev-marketplace.git
+git clone https://github.com/rhuss/rhuss-claude-marketplace.git
 
 # Install the plugin
 mkdir -p ~/.claude/plugins
-ln -s ~/Development/claude-code-dev-marketplace/threat-model-assessment \
+ln -s ~/Development/rhuss-claude-marketplace/threat-model-assessment \
       ~/.claude/plugins/threat-model-assessment
 ```
 
@@ -411,7 +411,7 @@ echo $JIRA_API_TOKEN
 ls -la ~/.claude/plugins/threat-model-assessment
 
 # Re-create if needed
-ln -sf ~/Development/claude-code-dev-marketplace/threat-model-assessment \
+ln -sf ~/Development/rhuss-claude-marketplace/threat-model-assessment \
        ~/.claude/plugins/threat-model-assessment
 ```
 

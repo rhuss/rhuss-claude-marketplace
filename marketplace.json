@@ -1,12 +1,12 @@
 {
-  "name": "claude-code-dev-marketplace",
+  "name": "rhuss-claude-marketplace",
   "owner": {
     "name": "Roland Huß",
     "email": "rhuss@redhat.com"
   },
   "description": "Custom Claude Code plugins for security, development, and automation workflows",
-  "homepage": "https://github.com/rhuss/claude-code-dev-marketplace",
-  "repository": "https://github.com/rhuss/claude-code-dev-marketplace",
+  "homepage": "https://github.com/rhuss/rhuss-claude-marketplace",
+  "repository": "https://github.com/rhuss/rhuss-claude-marketplace",
   "license": "MIT",
   "plugins": [
     {
